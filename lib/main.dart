@@ -1,14 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-//import 'package:google_fonts/google_fonts.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
-import 'home.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'login.dart';
 
 void main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
-  // await Firebase.initializeApp();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
 
   runApp(const MyApp());
 }
@@ -24,10 +21,16 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Color(0xFF0F3174),
         bottomAppBarColor: Color(0xFFFCDF46),
+        appBarTheme: AppBarTheme(
+          color: Color(0xFF0F3174),
+        ),
         hoverColor: Color(0xFFF0F0F0),
         splashColor: Color(0xFFA1E3FF),
         //textTheme: GoogleFonts.lato(textStyle: Theme.of(context).textTheme.headline5, fontSize: 20, fontWeight: FontWeight.normal, fontStyle: FontStyle.normal),
         //https://pub.dev/packages/google_fonts
+        textTheme: GoogleFonts.imprimaTextTheme(
+          Theme.of(context).textTheme,
+        )
       ),
       //home: const ChallengePage(),
       initialRoute: '/home',
