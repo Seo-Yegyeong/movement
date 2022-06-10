@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:movement/home.dart';
+import 'package:movement/pages/home/home.dart';
 import 'package:movement/util/size.dart';
 
 class LoginPage extends StatefulWidget {
@@ -46,9 +46,13 @@ class _LoginPageState extends State<LoginPage> {
           end: Alignment.bottomCenter,
           colors: [
             Color(0xFFA1E3FF),
+            Color(0xFFA1E3FF),
+            Color(0xFFC2E5F3),
             Color(0xFFC2E5F3),
             Color(0xFFD7DEE1),
+            Color(0xFFD7DEE1),
             Color(0xFF146C92),
+            Color(0xFF032837),
             Color(0xFF032837),
           ],
         )),
@@ -65,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
               style: TextStyle(fontWeight: FontWeight.w400, fontSize: 40),
             ),
             SizedBox(
-              height: getScreenHeight(context) * 0.2,
+              height: getScreenHeight(context) * 0.15,
             ),
             ElevatedButton(
               onPressed: () async {
@@ -133,9 +137,14 @@ class _LoginPageState extends State<LoginPage> {
 }
 
 
-class Authentication extends StatelessWidget {
+class Authentication extends StatefulWidget {
   const Authentication({Key? key}) : super(key: key);
 
+  @override
+  State<Authentication> createState() => _AuthenticationState();
+}
+
+class _AuthenticationState extends State<Authentication> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -145,7 +154,7 @@ class Authentication extends StatelessWidget {
           return LoginPage();
         }
         else {
-          return ChallengePage();
+          return HomePage();
         }
       },
     );

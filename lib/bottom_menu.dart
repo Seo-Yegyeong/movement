@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movement/home.dart';
+import 'package:movement/pages/home/home.dart';
 
 class MyStatefulWidget extends StatefulWidget {
   const MyStatefulWidget({Key? key}) : super(key: key);
@@ -13,7 +13,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
-    ChallengePage(),
+    HomePage(),
     Text(
       'Index 1: Business',
       style: optionStyle,
