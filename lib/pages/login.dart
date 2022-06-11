@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:movement/pages/home/home.dart';
 import 'package:movement/util/size.dart';
@@ -63,10 +64,11 @@ class _LoginPageState extends State<LoginPage> {
             ),
             SvgPicture.asset(
               "assets/image/global.svg",
+
             ),
             Text(
               "Movement",
-              style: TextStyle(fontWeight: FontWeight.w400, fontSize: 40),
+              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 40),
             ),
             SizedBox(
               height: getScreenHeight(context) * 0.15,
@@ -97,11 +99,7 @@ class _LoginPageState extends State<LoginPage> {
                     });
                   }
                   if (user != null)
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (context) => const Authentication(),
-                      ),
-                    );
+                    Get.to(Authentication());
                 }
               },
               child: Row(
@@ -111,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
                       width: 50,
                       child: Image.asset('assets/image/google_logo.PNG'),),
                   SizedBox(
-                    width: 30,
+                    width: 50,
                   ),
                   Text(
                     '구글 로그인',
@@ -123,10 +121,12 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
               style: ElevatedButton.styleFrom(
+                minimumSize: Size(getScreenWidth(context)*0.88, getScreenHeight(context)*0.1),
                 primary: Color(0xFFffffff),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5.0),
                 ),
+                elevation: 10
               ),
             ),
           ],

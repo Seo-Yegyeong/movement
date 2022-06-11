@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -25,22 +28,18 @@ class _HomePageState extends State<HomePage> {
       _selectedIndex = index;
     });
     if(index == 0) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const NewsPage(),
-        ),
-      );
+      Get.to(NewsPage());
     } else if(index == 2) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const AccountPage(),
-        ),
-      );
+      Get.to(AccountPage());
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    User? user = FirebaseAuth.instance.currentUser;
+    DocumentReference firestore = FirebaseFirestore.instance.collection('user').doc(user?.uid);
+    final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance.collection('challenge').snapshots();
+
     return Scaffold(
       appBar: AppBar(
         leading: SvgPicture.asset("assets/image/challenge.svg", color: Colors.white,),
@@ -63,19 +62,41 @@ class _HomePageState extends State<HomePage> {
                   ),
                   SizedBox(
                     height: getScreenHeight(context)*0.28,
-                    child: StreamBuilder(
+                    child:
+                    StreamBuilder(
                       stream: FirebaseFirestore.instance.collection('/challenge').snapshots(),
-                          //.where('docID', isEqualTo: "").snapshots(),
                       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot){
                         if (snapshot.connectionState == ConnectionState.waiting) {
                           return const Center(child: CircularProgressIndicator());
                         }
-
+                        // for(var item in firestore.get().)}
                         // for(var item in snapshot.data!.docs){
                         //   if(item[''])
                         // }
                         // 이 챌린지가 내 myChallenge 어레이 값에 있는가? 확인해보기!
                         // 있으면 아래 거 리턴, 없으면 패쓰!
+
+                        // FirebaseFirestore.instance.collection('user').doc(user!.uid).get().then((DocumentSnapshot documentSnapshot){
+                        //   documentSnapshot['myChallenge'].forEach((item){
+                        //     // for(var temp in snapshot.data!.docs){
+                        //     //print("check : " + temp['docID']);
+                        //     return (snapshot.data!.docs[index]['docID'].toString().compareTo(item.toString())==0)?
+                        //         Row(
+                        //           children: [
+                        //             ChallengeCard(doc: snapshot.data!.docs[index], type: CardType.NARROW,),
+                        //             SizedBox(width: 1,),
+                        //           ],
+                        //         ) :
+                        //         Text("hi");
+                        //     //}
+                        //   });
+                        //   //print("여기야 여기~~!");
+                        // print(item);
+                        // print(snapshot.data!.docs[index]['docID']);
+                        // print("======same======");
+                        // if(snapshot.data!.docs[0]['docID'] == item)
+                        // });
+
                         return Row(
                           children: [
                             Expanded(
@@ -84,11 +105,12 @@ class _HomePageState extends State<HomePage> {
                                 scrollDirection: Axis.horizontal,
                                 itemCount: snapshot.data!.docs.length,
                                 itemBuilder: (BuildContext context, int index) {
+                                  //RxBool same = false.obs;
                                   return Row(
-                                    children: [
-                                      ChallengeCard(doc: snapshot.data!.docs[index], type: CardType.NARROW,),
-                                      SizedBox(width: 1,),
-                                    ],
+                                        children: [
+                                          ChallengeCard(doc: snapshot.data!.docs[index], cardType: CardType.NARROW, contentType: ContentType.Challenge,),
+                                          SizedBox(width: 1,),
+                                        ],
                                   );
                                 },
                               ),
@@ -128,7 +150,7 @@ class _HomePageState extends State<HomePage> {
                   Container(
                     height: getScreenHeight(context)*0.28,
                     child: StreamBuilder(
-                      stream: FirebaseFirestore.instance.collection('/challenge').snapshots(),
+                      stream: FirebaseFirestore.instance.collection('/group').snapshots(),
                       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot){
                         if (snapshot.connectionState == ConnectionState.waiting)
                           return Center(child: CircularProgressIndicator());
@@ -141,7 +163,7 @@ class _HomePageState extends State<HomePage> {
                                 scrollDirection: Axis.horizontal,
                                 itemCount: snapshot.data!.docs.length,
                                 itemBuilder: (BuildContext context, int index) {
-                                  return ChallengeCard(doc: snapshot.data!.docs[index], type: CardType.NARROW,);
+                                  return ChallengeCard(doc: snapshot.data!.docs[index], cardType: CardType.NARROW, contentType: ContentType.Group,);
                                 },
                               ),
                             ),
@@ -162,48 +184,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ],
               ),
-              // FutureBuilder(
-              //   future: storage.listFiles(),
-              //   builder: (BuildContext context,
-              //   AsyncSnapshot<firebase_storage.ListResult> snapshot){
-              //     if(snapshot.connectionState == ConnectionState.done && snapshot.hasData){
-              //       return Container(
-              //         height: 100,
-              //         child: ListView.builder(
-              //           shrinkWrap: true,
-              //           scrollDirection: Axis.horizontal,
-              //           itemCount: snapshot.data!.items.length,
-              //           itemBuilder: (BuildContext context, int index){
-              //             return ElevatedButton(onPressed: (){}, child: Text(snapshot.data!.items[index].name),);
-              //           },
-              //
-              //         ),
-              //       );
-              //     }
-              //     if (snapshot.connectionState == ConnectionState.waiting || !snapshot.hasData){
-              //       return CircularProgressIndicator();
-              //     }
-              //     return Container();
-              //   },
-              // ),
-              // FutureBuilder(
-              //   future: storage.downloadURL("challenge", '한동사진.jpg'),
-              //   builder: (BuildContext context,
-              //   AsyncSnapshot<String> snapshot){
-              //     if(snapshot.connectionState == ConnectionState.done && snapshot.hasData){
-              //       return Container(width: 300, height: 250,
-              //         child: Image.network(
-              //           snapshot.data!,
-              //           fit: BoxFit.cover,
-              //         ),
-              //       );
-              //     }
-              //     if (snapshot.connectionState == ConnectionState.waiting || !snapshot.hasData){
-              //       return CircularProgressIndicator();
-              //     }
-              //     return Container();
-              //   },
-              // ),
             ],
           ),
         ),

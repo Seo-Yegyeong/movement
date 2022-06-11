@@ -1,17 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:movement/util/size.dart';
 import 'package:movement/util/storage_service.dart';
 
 import 'challenge_detail.dart';
 
 enum CardType { NARROW, WIDE }
+enum ContentType { Challenge, Group}
 
 class ChallengeCard extends StatefulWidget {
   final QueryDocumentSnapshot<Map<String, dynamic>> doc;
-  final CardType type;
+  final CardType cardType;
+  final ContentType contentType;
 
-  const ChallengeCard({Key? key, required this.doc, required this.type})
+  const ChallengeCard({Key? key, required this.doc, required this.cardType, required this.contentType})
       : super(key: key);
 
   @override
@@ -20,14 +23,15 @@ class ChallengeCard extends StatefulWidget {
 
 class _ChallengeCardState extends State<ChallengeCard> {
   get doc => widget.doc;
-  get type => widget.type;
+  get cardType => widget.cardType;
+  get contentType => widget.contentType;
 
   @override
   Widget build(BuildContext context) {
     final Storage storage = Storage();
 
 
-    if(type == CardType.NARROW)
+    if(cardType == CardType.NARROW) {
       return Padding(
       padding: EdgeInsets.only(right: 30),
       child: Column(
@@ -44,25 +48,20 @@ class _ChallengeCardState extends State<ChallengeCard> {
                   child: ElevatedButton(
                     onPressed: () {
                       print(doc.id);
-                      //context.read<AnnounceChange>().changeTeacher(doc.id);
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                          builder: (context) => ChallDetail(doc: doc),
-                        ),
-                      );
+                      Get.to(ChallDetail(doc: doc));
                     },
                     style: ElevatedButton.styleFrom(
-                      //shape: CircleBorder(side: BorderSide.none),
-                      primary: Color(0xFFe1e1e1),
-                      elevation: 5.0,
-                      //animationDuration: Duration(seconds: 5),
+                      primary: Color(0xFFF8F8F8),
+                      elevation: 10.0,
+                      animationDuration: Duration(seconds: 5),
                     ),
                     child: Column(
                       children: [
                         SizedBox(
                           height: 80,
                           child: FutureBuilder(
-                            future: storage.downloadURL("challenge", doc['image']),
+                            future: (contentType == ContentType.Challenge)? storage.downloadURL("challenge", doc['image'])
+                            : storage.downloadURL("group", doc['image']),
                             builder: (BuildContext context,
                                 AsyncSnapshot<String> snapshot) {
                               if (snapshot.connectionState ==
@@ -89,7 +88,7 @@ class _ChallengeCardState extends State<ChallengeCard> {
                           height: 5,
                         ),
                         Text(
-                          doc['title'],
+                          doc['name'],
                           style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
@@ -106,7 +105,7 @@ class _ChallengeCardState extends State<ChallengeCard> {
         ],
       ),
     );
-    else {
+    } else {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -119,11 +118,7 @@ class _ChallengeCardState extends State<ChallengeCard> {
                   borderRadius: BorderRadius.circular(20),
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                          builder: (context) => ChallDetail(doc: doc),
-                        ),
-                      );
+                      Get.to(ChallDetail(doc: doc));
                     },
                     style: ElevatedButton.styleFrom(
                       //shape: CircleBorder(side: BorderSide.none),

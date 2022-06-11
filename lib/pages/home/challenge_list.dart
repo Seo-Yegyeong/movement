@@ -48,7 +48,7 @@ class _ChallengeListPageState extends State<ChallengeListPage> {
                               itemBuilder: (BuildContext context, int index) {
                                 return Column(
                                   children: [
-                                    ChallengeCard(doc: snapshot.data!.docs[index], type: CardType.WIDE,),
+                                    ChallengeCard(doc: snapshot.data!.docs[index], cardType: CardType.WIDE, contentType: ContentType.Challenge,),
                                     SizedBox(height: 10,),
                                   ],
                                 );

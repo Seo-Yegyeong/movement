@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:movement/util/size.dart';
 import 'package:movement/util/storage_service.dart';
 
@@ -19,11 +21,7 @@ class ChallDetail extends StatelessWidget {
           ),
           onPressed: () {
             // Navigator.pop(context);
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (context) => const HomePage(),
-              ),
-            );
+            Get.to(HomePage());
           },
         ),
         title: Center(
@@ -93,7 +91,7 @@ class ChallDetail extends StatelessWidget {
                       child: Column(
                         children: [
                           Text(
-                            doc['title'],
+                            doc['name'],
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -125,13 +123,22 @@ class ChallDetail extends StatelessWidget {
                             height: getScreenHeight(context) * 0.05,
                           ),
                           ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              User? user = FirebaseAuth.instance.currentUser;
+                              FirebaseFirestore.instance.collection('user').doc(user?.uid).update(
+                                  {'myChallenge' : FieldValue.arrayUnion(<dynamic>[doc['docID']])});
+                              print("Here~~~~!");
+                              print("User.uid" + user!.uid);
+                              print("doc[docID]" + doc['docID']);
+                            },
                             child: Text("나도 참여하기", style: TextStyle(
                               color: Colors.black,
-                              fontSize: 15
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
                             ),),
                             style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.resolveWith((color) => Colors.white),
+                              minimumSize: MaterialStateProperty.resolveWith((minimumSize) => Size(getScreenWidth(context)*0.45, getScreenHeight(context)*0.08))
                             ),
                           ),
                           SizedBox(

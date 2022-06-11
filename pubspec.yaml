@@ -46,6 +46,9 @@ dependencies:
   image_cropper: ^2.0.3
   get: ^4.6.5
   file_picker: ^4.6.1
+  http: ^0.13.4
+  table_calendar: ^3.0.6
+  fl_chart: ^0.51.0
 
 dev_dependencies:
   flutter_test:
