@@ -52,9 +52,13 @@ class _LoginPageState extends State<LoginPage> {
             Color(0xFFC2E5F3),
             Color(0xFFD7DEE1),
             Color(0xFFD7DEE1),
-            Color(0xFF146C92),
+            Color(0xFFD7DEE1),
+            Color(0xFFD7DEE1),
+            Color(0xFF9EC4E7),
+            Color(0xFF8AC3F9),
+            Color(0xFF074F90),
             Color(0xFF032837),
-            Color(0xFF032837),
+            Color(0xFF000000),
           ],
         )),
         child: Column(
@@ -71,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
               style: TextStyle(fontWeight: FontWeight.w500, fontSize: 40),
             ),
             SizedBox(
-              height: getScreenHeight(context) * 0.15,
+              height: getScreenHeight(context) * 0.14,
             ),
             ElevatedButton(
               onPressed: () async {

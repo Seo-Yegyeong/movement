@@ -38,8 +38,12 @@ class _ChallengeListPageState extends State<ChallengeListPage> {
                       if (snapshot.connectionState == ConnectionState.waiting)
                         return Center(child: CircularProgressIndicator());
 
-                      return Row(
+                      return Column(
                         children: [
+                          ElevatedButton(onPressed: (){
+
+                          },
+                              child: Text("챌린지 추가하기")),
                           Expanded(
                             child: ListView.builder(
                               shrinkWrap: true,

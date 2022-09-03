@@ -51,7 +51,7 @@ class _ChallengeCardState extends State<ChallengeCard> {
                       Get.to(ChallDetail(doc: doc));
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Color(0xFFF8F8F8),
+                      primary: Color(0xFFF1F1F1),
                       elevation: 10.0,
                       animationDuration: Duration(seconds: 5),
                     ),
@@ -122,7 +122,7 @@ class _ChallengeCardState extends State<ChallengeCard> {
                     },
                     style: ElevatedButton.styleFrom(
                       //shape: CircleBorder(side: BorderSide.none),
-                      primary: Color(0xFFe1e1e1),
+                      primary: Color(0xFFF1F1F1),
                       elevation: 5.0,
                       //animationDuration: Duration(seconds: 5),
                     ),
@@ -167,7 +167,7 @@ class _ChallengeCardState extends State<ChallengeCard> {
                         ),
                         Expanded(
                           child: Text(
-                            doc['title'],
+                            doc['name'],
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,

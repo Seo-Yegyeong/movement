@@ -5,11 +5,11 @@ import 'package:get/get.dart';
 import 'package:movement/util/size.dart';
 import 'package:movement/util/storage_service.dart';
 
-import 'account/account.dart';
+import '../pages/account/account.dart';
 
 
-class CalendarPage extends StatelessWidget {
-  const CalendarPage({Key? key,}) : super(key: key);
+class DetailFormPage extends StatelessWidget {
+  const DetailFormPage({Key? key,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +46,6 @@ class CalendarPage extends StatelessWidget {
   }
 
   Widget _bodyCard(BuildContext context) {
-    final Storage storage = Storage();
-
     return Container();
   }
 }

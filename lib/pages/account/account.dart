@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:movement/pages/calendar.dart';
+import 'package:movement/pages/login.dart';
 import 'package:movement/pages/news/news.dart';
 import 'package:movement/util/color_extensions.dart';
 import 'package:movement/util/storage_service.dart';
@@ -89,8 +89,8 @@ class _AccountPageState extends State<AccountPage> {
               AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting)
               return Center(child: CircularProgressIndicator());
-            print("Here~~~~~~!!");
-            print(snapshot.data!.docs[0]['uid']);
+            // print("Here~~~~~~!!");
+            // print(snapshot.data!.docs[0]['uid']);
             return FutureBuilder(
               future: storage.downloadURL(
                   "user", snapshot.data?.docs.first['uid'] + ".jpg"),
@@ -362,32 +362,32 @@ class _AccountPageState extends State<AccountPage> {
 
   Widget getTitles(double value, TitleMeta meta) {
     const style = TextStyle(
-      color: Colors.white,
+      color: Colors.black,
       fontWeight: FontWeight.bold,
       fontSize: 14,
     );
     Widget text;
     switch (value.toInt()) {
       case 0:
-        text = const Text('M', style: style);
+        text = const Text('Mon', style: style);
         break;
       case 1:
-        text = const Text('T', style: style);
+        text = const Text('Tue', style: style);
         break;
       case 2:
-        text = const Text('W', style: style);
+        text = const Text('Wed', style: style);
         break;
       case 3:
-        text = const Text('T', style: style);
+        text = const Text('Tur', style: style);
         break;
       case 4:
-        text = const Text('F', style: style);
+        text = const Text('Fri', style: style);
         break;
       case 5:
-        text = const Text('S', style: style);
+        text = const Text('Sat', style: style);
         break;
       case 6:
-        text = const Text('S', style: style);
+        text = const Text('Sun', style: style);
         break;
       default:
         text = const Text('', style: style);
@@ -538,6 +538,18 @@ class _AccountPageState extends State<AccountPage> {
                   fontSize: 20
                 ),),
               ),
+            ),
+            Divider(thickness: 1,),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Center(
+                child: Text("로그아웃", style: TextStyle(
+                  fontSize: 20
+                ),),
+              ),
+              onTap: (){FirebaseAuth.instance.signOut();
+                Get.to(Authentication());
+                },
             ),
             Divider(thickness: 1,),
           ],
